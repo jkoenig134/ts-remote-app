@@ -15,5 +15,5 @@ simply run `go get github.com/jkoenig134/go-ts5-applib`
 
 ## running
 
-how to run? see `example/main.go`
+`example/main.go` provides a good example on how to listen to events and communicate to the client.
 
