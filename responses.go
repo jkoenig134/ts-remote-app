@@ -11,7 +11,7 @@ type TypeScan struct {
 	Type string `json:"type"`
 }
 
-func (app *TsApp) receive() {
+func (app *RemoteApp) receive() {
 	defer app.Disconnect()
 	for {
 		_, message, err := app.c.ReadMessage()
@@ -59,7 +59,7 @@ func (app *TsApp) receive() {
 	}
 }
 
-func (app *TsApp) deserializeResponse(message []byte, v interface{}) error {
+func (app *RemoteApp) deserializeResponse(message []byte, v interface{}) error {
 	err := json.Unmarshal(message, v)
 	if err != nil {
 		app.publishEvent(ErrorEvent, errors.New(fmt.Sprintf("deserialize: %s", message)))
@@ -82,7 +82,7 @@ type AuthResponsePayload struct {
 	CurrentConnectionId int          `json:"currentConnectionId"`
 }
 
-func (app *TsApp) handleAuthResponse(message []byte) {
+func (app *RemoteApp) handleAuthResponse(message []byte) {
 	auth := AuthResponse{}
 	if err := app.deserializeResponse(message, &auth); err != nil {
 		return
@@ -111,7 +111,7 @@ type ClientSelfPropertyUpdatedResponsePayload struct {
 	OldValue     string `json:"oldValue"`
 }
 
-func (app *TsApp) handleClientSelfPropertyUpdated(message []byte) {
+func (app *RemoteApp) handleClientSelfPropertyUpdated(message []byte) {
 	response := ClientSelfPropertyUpdatedResponse{}
 	if err := app.deserializeResponse(message, &response); err != nil {
 		return
@@ -135,7 +135,7 @@ type ConnectStatusChangedResponsePayload struct {
 	Status int `json:"status"`
 }
 
-func (app *TsApp) handleConnectStatusChanged(message []byte) {
+func (app *RemoteApp) handleConnectStatusChanged(message []byte) {
 	response := ConnectStatusChangedResponse{}
 	if err := app.deserializeResponse(message, &response); err != nil {
 		return
@@ -153,7 +153,7 @@ type ChannelsSubscribedResponsePayload struct {
 	ConnectionId int         `json:"connectionId"`
 }
 
-func (app *TsApp) handleChannelsSubscribed(message []byte) {
+func (app *RemoteApp) handleChannelsSubscribed(message []byte) {
 	response := ChannelsSubscribedResponse{}
 	if err := app.deserializeResponse(message, &response); err != nil {
 		return
@@ -177,7 +177,7 @@ type ClientMovedResponsePayload struct {
 	Properties   ClientProperties `json:"properties,omitempty"`
 }
 
-func (app *TsApp) handleClientMoved(message []byte) {
+func (app *RemoteApp) handleClientMoved(message []byte) {
 	response := ClientMovedResponse{}
 	if err := app.deserializeResponse(message, &response); err != nil {
 		return
@@ -196,7 +196,7 @@ type ClientPropertyUpdatedResponsePayload struct {
 	Properties   ClientProperties `json:"properties"`
 }
 
-func (app *TsApp) handleClientPropertyUpdated(message []byte) {
+func (app *RemoteApp) handleClientPropertyUpdated(message []byte) {
 	response := ClientPropertyUpdatedResponse{}
 	if err := app.deserializeResponse(message, &response); err != nil {
 		return
@@ -217,7 +217,7 @@ type ClientChannelGroupChangedResponsePayload struct {
 	ConnectionId                   int    `json:"connectionId"`
 }
 
-func (app *TsApp) handleClientChannelGroupChanged(message []byte) {
+func (app *RemoteApp) handleClientChannelGroupChanged(message []byte) {
 	response := ClientChannelGroupChangedResponse{}
 	if err := app.deserializeResponse(message, &response); err != nil {
 		return
@@ -236,7 +236,7 @@ type ChannelPropertiesUpdatedResponsePayload struct {
 	Properties   map[string]interface{} `json:"properties"`
 }
 
-func (app *TsApp) handleChannelPropertiesUpdated(message []byte) {
+func (app *RemoteApp) handleChannelPropertiesUpdated(message []byte) {
 	response := ChannelPropertiesUpdatedResponse{}
 	if err := app.deserializeResponse(message, &response); err != nil {
 		return
@@ -254,7 +254,7 @@ type ChannelsResponsePayload struct {
 	Info         ChannelInfo `json:"info"`
 }
 
-func (app *TsApp) handleChannels(message []byte) {
+func (app *RemoteApp) handleChannels(message []byte) {
 	response := ChannelsResponse{}
 	if err := app.deserializeResponse(message, &response); err != nil {
 		return
@@ -273,7 +273,7 @@ type GroupInfoResponsePayload struct {
 	Type         int         `json:"type"`
 }
 
-func (app *TsApp) handleGroupInfo(message []byte) {
+func (app *RemoteApp) handleGroupInfo(message []byte) {
 	response := GroupInfoResponse{}
 	if err := app.deserializeResponse(message, &response); err != nil {
 		return
@@ -293,7 +293,7 @@ type PermissionListResponsePayload struct {
 	GroupEndIds  interface{}  `json:"groupEndIds"` //TODO
 }
 
-func (app *TsApp) handlePermissionList(message []byte) {
+func (app *RemoteApp) handlePermissionList(message []byte) {
 	response := PermissionListResponse{}
 	if err := app.deserializeResponse(message, &response); err != nil {
 		return
@@ -311,7 +311,7 @@ type ServerPropertiesUpdatedResponsePayload struct {
 	Properties   map[string]interface{} `json:"properties"`
 }
 
-func (app *TsApp) handleServerPropertiesUpdated(message []byte) {
+func (app *RemoteApp) handleServerPropertiesUpdated(message []byte) {
 	response := ServerPropertiesUpdatedResponse{}
 	if err := app.deserializeResponse(message, &response); err != nil {
 		return
@@ -329,7 +329,7 @@ type NeededPermissionsResponsePayload struct {
 	Data         map[string]int `json:"data"`
 }
 
-func (app *TsApp) handleNeededPermissions(message []byte) {
+func (app *RemoteApp) handleNeededPermissions(message []byte) {
 	response := NeededPermissionsResponse{}
 	if err := app.deserializeResponse(message, &response); err != nil {
 		return

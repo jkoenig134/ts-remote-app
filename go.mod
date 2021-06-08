@@ -1,4 +1,4 @@
-module github.com/jkoenig134/go-ts5-applib
+module github.com/jkoenig134/ts-remote-app
 
 go 1.16
 

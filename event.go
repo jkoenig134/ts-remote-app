@@ -21,14 +21,14 @@ const (
 	NeededPermissionsEvent         AppEvent = "NEEDED_PERMISSIONS"
 )
 
-func (app *TsApp) SubscribeEvent(event AppEvent, fn interface{}) error {
+func (app *RemoteApp) SubscribeEvent(event AppEvent, fn interface{}) error {
 	return app.eventBus.Subscribe(string(event), fn)
 }
 
-func (app *TsApp) UnsubscribeEvent(event AppEvent, handler interface{}) error {
+func (app *RemoteApp) UnsubscribeEvent(event AppEvent, handler interface{}) error {
 	return app.eventBus.Unsubscribe(string(event), handler)
 }
 
-func (app *TsApp) publishEvent(event AppEvent, args ...interface{}) {
+func (app *RemoteApp) publishEvent(event AppEvent, args ...interface{}) {
 	app.eventBus.Publish(string(event), args...)
 }

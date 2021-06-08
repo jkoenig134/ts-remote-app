@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	applib "github.com/jkoenig134/go-ts5-applib"
-	"github.com/jkoenig134/go-ts5-applib/apiKey/windows"
+	applib "github.com/jkoenig134/ts-remote-app"
+	"github.com/jkoenig134/ts-remote-app/apiKey/windows"
 	"log"
 	"os"
 	"os/signal"
