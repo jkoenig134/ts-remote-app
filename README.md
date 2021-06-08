@@ -9,11 +9,11 @@ and [this](https://community.teamspeak.com/t/teamspeak-5-0-0-beta55/23318) offic
 comes from trial and error and reading events that are executed. Contact me if you encounter events that are not handled
 by my lib.
 
-## installing
+## Installation
 
 simply run `go get github.com/jkoenig134/go-ts5-applib`
 
-## running
+## Usage
 
 `example/main.go` provides a good example on how to listen to events and communicate to the client.
 
