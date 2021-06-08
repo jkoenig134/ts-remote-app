@@ -1,4 +1,4 @@
-package applib
+package tsremote
 
 type ApiKeyProvider interface {
 	GetApiKey() string

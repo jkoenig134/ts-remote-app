@@ -1,4 +1,4 @@
-package applib
+package types
 
 type Connection struct {
 	ChannelInfos ChannelInfo            `json:"channelInfos"`
