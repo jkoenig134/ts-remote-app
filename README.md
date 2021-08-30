@@ -11,7 +11,7 @@ by my lib.
 
 ## Installation
 
-simply run `go get github.com/jkoenig134/go-ts5-applib`
+simply run `go get github.com/jkoenig134/ts-remote-app`
 
 ## Usage
 
