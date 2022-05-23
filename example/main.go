@@ -28,6 +28,8 @@ func main() {
 
 	_ = app.SubscribeEvent(event.DisconnectEvent, func() {
 		fmt.Println("Disconnect Event")
+
+		interrupt <- os.Interrupt
 	})
 
 	_ = app.SubscribeEvent(event.ClientSelfPropertyUpdatedEvent, func(v event.ClientSelfPropertyUpdatedEventPayload) {
