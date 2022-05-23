@@ -3,11 +3,12 @@ package tsremote
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/jkoenig134/ts-remote-app/event"
-	"github.com/jkoenig134/ts-remote-app/publisher"
 	"log"
 	"os"
 	"os/signal"
+
+	"github.com/jkoenig134/ts-remote-app/event"
+	"github.com/jkoenig134/ts-remote-app/publisher"
 
 	"github.com/gorilla/websocket"
 )
@@ -17,13 +18,29 @@ type RemoteApp struct {
 	c              *websocket.Conn
 	authorized     bool
 	eventPublisher publisher.AppClientEventPublisher
+	wsUrl          string
 }
 
-func NewTsApp(provider ApiKeyProvider) RemoteApp {
+type NewTsAppParams struct {
+	Host string
+	Port int
+}
+
+func NewTsApp(provider ApiKeyProvider, p NewTsAppParams) RemoteApp {
+	if p.Host == "" {
+		p.Host = "localhost"
+	}
+
+	if p.Port == 0 {
+		p.Port = 5899
+	}
+
+	wsUrl := fmt.Sprintf("ws://%s:%d", p.Host, p.Port)
 	return RemoteApp{
 		apiKeyProvider: provider,
 		authorized:     false,
 		eventPublisher: publisher.NewParser(),
+		wsUrl:          wsUrl,
 	}
 }
 
@@ -42,7 +59,7 @@ func (app *RemoteApp) Connect() error {
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
-	c, _, err := websocket.DefaultDialer.Dial("ws://localhost:5899", nil)
+	c, _, err := websocket.DefaultDialer.Dial(app.wsUrl, nil)
 	if err != nil {
 		return err
 	}
