@@ -1,22 +1,39 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"github.com/jkoenig134/ts-remote-app"
-	"github.com/jkoenig134/ts-remote-app/apiKey/windows"
-	"github.com/jkoenig134/ts-remote-app/event"
 	"log"
 	"os"
 	"os/signal"
+	"runtime"
 	"time"
+
+	tsremote "github.com/jkoenig134/ts-remote-app"
+	"github.com/jkoenig134/ts-remote-app/apiKey/file"
+	"github.com/jkoenig134/ts-remote-app/apiKey/windows"
+	"github.com/jkoenig134/ts-remote-app/event"
 )
+
+func getApiKeyProvider() tsremote.ApiKeyProvider {
+	if runtime.GOOS == "windows" {
+		return windows.NewApiKeyProvider("target")
+	}
+
+	return file.NewApiKeyProvider("./apiKey.txt")
+}
 
 func main() {
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
-	provider := windows.NewApiKeyProvider("target")
-	app := tsremote.NewTsApp(provider)
+	hostFlag := flag.String("host", "localhost", "Host to connect to")
+	portFlag := flag.Int("port", 5899, "Port to connect to")
+
+	app := tsremote.NewTsApp(getApiKeyProvider(), tsremote.NewTsAppParams{
+		Host: *hostFlag,
+		Port: *portFlag,
+	})
 
 	_ = app.SubscribeEvent(event.ErrorEvent, func(v event.ErrorEventPayload) {
 		fmt.Printf("error event: %s\n", v)
