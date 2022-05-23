@@ -2,19 +2,20 @@ package windows
 
 import (
 	"fmt"
-	"github.com/danieljoos/wincred"
 	"log"
+
+	"github.com/danieljoos/wincred"
 )
 
-type ApiKeyProvider struct {
+type WindowsApiKeyProvider struct {
 	targetName string
 }
 
-func NewApiKeyProvider(targetName string) ApiKeyProvider {
-	return ApiKeyProvider{targetName: targetName}
+func NewApiKeyProvider(targetName string) WindowsApiKeyProvider {
+	return WindowsApiKeyProvider{targetName: targetName}
 }
 
-func (p ApiKeyProvider) GetApiKey() string {
+func (p WindowsApiKeyProvider) GetApiKey() string {
 	cred, err := wincred.GetGenericCredential(p.targetName)
 	if err != nil {
 		fmt.Println(err)
@@ -24,7 +25,7 @@ func (p ApiKeyProvider) GetApiKey() string {
 	return string(cred.CredentialBlob)
 }
 
-func (p ApiKeyProvider) SetApiKey(apiKey string) {
+func (p WindowsApiKeyProvider) SetApiKey(apiKey string) {
 	cred := wincred.NewGenericCredential(p.targetName)
 	cred.CredentialBlob = []byte(apiKey)
 	err := cred.Write()

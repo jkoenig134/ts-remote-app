@@ -1,13 +1,13 @@
 package inMemory
 
-type ApiKeyProvider struct {
+type InMemoryApiKeyProvider struct {
 	ApiKey string
 }
 
-func (p ApiKeyProvider) GetApiKey() string {
+func (p InMemoryApiKeyProvider) GetApiKey() string {
 	return p.ApiKey
 }
 
-func (p ApiKeyProvider) SetApiKey(apiKey string) {
+func (p InMemoryApiKeyProvider) SetApiKey(apiKey string) {
 	p.ApiKey = apiKey
 }
